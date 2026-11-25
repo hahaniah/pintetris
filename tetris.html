@@ -1,0 +1,145 @@
+<!DOCTYPE> <html>
+    <html lang= "en">
+        <head>
+            <meta charset ="UTF-8" />
+            <meta name="viewport" content="width-device-width, initial-scale=1.0"/>
+            <title>pintetris</title>
+            <style>
+                * {margin: 0; padding: 0; box-sizing: border-box;}
+
+                body {
+                    background: url(bg.png) center center / cover no-repeat;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100vh;
+                    font-family: monospace;
+                    color: #fff;
+                }
+                .game-wrap {
+                    display: flex;
+                    gap:2rem;
+                    align-items: flex-start;
+                    padding-top: 2rem;
+
+                }
+                canvas {
+                    border: 2px solid #444;
+                    display: block;
+                }
+                .slidebar {
+                    display:flex;
+                    flex-direction: column;
+                    gap: 1.5rem;
+                    min-width: 120px;
+                }
+                .sidebar h1 {
+                    font-size: 1.4rem;
+                    letter-spacing: 0.1rem;
+                    color: e0aaff;
+                }
+                .label {
+                    font-size: 0.7rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.15rem;
+                    color: #9b5de5;
+                    margin-bottom: 0.3rem;
+                }
+                .score-val {
+                    font-size: 1.6rem;
+                    color: #f4743b;
+                }
+                .next-canvas {
+                    border: 1px solid #333;
+                }
+                .btn {
+                    background: #9b5de5;
+                    color: #fff;
+                    border: none;
+                    padding: 0.6rem 1rem;
+                    font-family: monospace;
+                    font-size: 0.85rem;
+                    cursor: pointer;
+                    border-radius: 4px;
+                    font-weight: bold;
+                    letter-spacing: 0.05rem;
+                }
+
+                .btn:hover {opacity: 0.85;}
+
+                #game-over {
+                    display: none;
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(0,0,0,0.75);
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column:
+                    gap: 1rem;
+                    font-size: 1.2rem;
+                }
+                .title-img {
+                    position: fixed;
+                    botton: 420px;
+                    left: 20px;
+                    width: 600px;
+                    pointer-events: none;
+                    z-index: 2;
+                }
+
+                .char-img {
+                    position: fixed;
+                    bottom; 0;
+                    left: 0;
+                    width: 700px;
+                    pointer events; none;
+                    z-index: 0;
+                }
+                
+                .game-wrap {
+                    position: relative;
+                    z-index: 1;
+                }
+                #game-over.show {display: flex;}
+                #game-over h2 {color: #e0aaff; font-size: 2rem;}
+
+            </style>
+        </head>
+
+        <img class="char-img" src="char.png" alt="character" />
+
+        <div class="game-wrap">
+            <div class="game-left">
+                <img class="title-img" src="orange.png" alt="tetris" />
+                <canvas id="board" width="240" heoght="480"></canvas>
+                </div>
+
+                <div class="sidebar">
+                    <h1>pintetris</h1>
+                
+                <div>
+                    <p class="label">score</p>
+                 <p class="score-val" id="score">0</p>
+                </div>
+
+                <div>
+                    <p class="label">level</p>
+                     <p class="score-val" id="level">1</p>
+                    </div>
+
+
+                    <button class="btn" id="start-btn">start</button>
+                    <button class="btn" id="pause-btn">pause</button>
+                    </div>
+                    </div>
+
+                    <div id="game-over">
+                        <h2>game over</h2>
+                        <p id="final-score"></p>
+                        <button class="btn" onclick="restartGame()">play again</button>
+                        </div>
+
+                        <audio id="bg-music" src="bgmusic.mp3" loop></audio>
+                         <script src="tetris.js"></script>
+                    </body>                  
+</html>
