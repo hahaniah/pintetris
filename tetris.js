@@ -1,23 +1,23 @@
 const canvas = document.getElementById('board');
-donst ctx = canvas.getContext('2d');
+const ctx = canvas.getContext('2d');
 const nextCanvas = document.getElementById('next-canvas');
 const nextCtx = nextCanvas.getContext('2d');
 
-cosnt COLS = 10;
+const COLS =10;
 const ROWS = 20;
 const BLOCK = 24;
 
 const PIECES = [
-     { shape: [[1,1,1,1]], img: 'block-i.png' },
-  { shape: [[1,1],[1,1]], img: 'block-o.png' },
-  { shape: [[0,1,0],[1,1,1]], img: 'block-t.png' },
-  { shape: [[1,0],[1,0],[1,1]], img: 'block-l.png' },
-  { shape: [[0,1],[0,1],[1,1]], img: 'block-j.png' },
-  { shape: [[0,1,1],[1,1,0]], img: 'block-s.png' },
-  { shape: [[1,1,0],[0,1,1]], img: 'block-z.png' },
-  { shape: [[1,0],[1,1],[0,1]], img: 'block-8.png' },
-  { shape: [[1,1,1],[1,0,0]], img: 'block-9.png' },
-  { shape: [[1,1,1],[0,0,1]], img: 'block-10.png' },
+     { shape: [[1,1,1,1]], img: 'block-ii.png' },
+  { shape: [[1,1],[1,1]], img: 'block-j.png'},
+  { shape: [[0,1,0],[1,1,1]], img: 'block-11.png'},
+  { shape: [[1,0],[1,0],[1,1]], img: 'block-88.png'},
+  { shape: [[0,1],[0,1],[1,1]], img:'block-101.png'},
+  { shape: [[0,1,1],[1,1,0]], img: 'block-ss.png'}.
+  { shape: [[1,1,0],[0,1,1]], img: 'block-zz.png'},
+  { shape: [[1,0],[1,1],[0,1]], img: 'block-t.png'},
+  { shape: [[1,1,1],[1,0,0]], img: 'block-99.png'},
+  { shape: [[1,1,1],[0,0,1]], img: 'block-pp.png'},
 ];
 
 var blockImages = {};
@@ -27,7 +27,7 @@ PIECES.forEach(function(p) {
     blockImages[p.img] = img;
 });
 
-ley boaed = [];
+let board = [];
 let current = null;
 let next = null;
 let score = 0;
@@ -35,7 +35,7 @@ let level = 1;
 let lines = 0;
 let gameRunning = false;
 let paused = false;
-let dropInterval = 300;
+let dropInterval = 400;
 let lastTime = 0;
 let dropCounter = 0;
 let animId = null;
@@ -64,7 +64,7 @@ function randomPiece () {
         function drawBoard() {
             ctx.clearRect (0, 0, canvas.width, canvas.height);
 
-            ctx. strokeStyle = 'rgba(255,255,255, 0, 0.04)';
+            ctx. strokeStyle = 'rgba(255,255,255, 0.04)';
             for (var r = 0; r < ROWS; r++) {
                 for (var c = 0; c < COLS; c++) {
                     ctx.strokeRect ( c* BLOCK, r * BLOCK, BLOCK, BLOCK);
@@ -80,13 +80,13 @@ function randomPiece () {
             }
         }
 
-        function drawPiece(context, piecem offsetX, offsetY) {
-            offsetX = offsetX 0;
-            offsetY = offsetY 0;
-            piecem.shape.forEach(function(row.r) {
+        function drawPiece(context, piece, offsetX, offsetY) {
+            offsetX = offsetX || 0;
+            offsetY = offsetY || 0;
+            piece.shape.forEach(function(row,r) {
                 row.forEach(function(cell,c) {
                     if (cell) {
-                        drawBlock (context, piecem.x + c + offsetX, piecem.y + r + offsetY. piecem)
+                        drawBlock (context, piece.x + c + offsetX, piece.y + r + offsetY. piece.img);
                         }
                 });
             });
@@ -98,17 +98,33 @@ function randomPiece () {
             var offsetX = Math.floor (( 4 - next.shape[0]. length) /2);
             var offsetY = Math.floor ((4- next.shape.length) /2);
             next.shape.forEach(function (row, r) {
-                row. forEach(function(cell, c) {
+                 row.forEach(function(cell, c) {
                     if (cell) {
                         var img = blockImages[next.img];
                         if (img && img.complete && img.naturalWidth >0) {
                             nextCtx.drawiMage(img, (c+offsetX) * 25, (r+offsetY) * 25, 24, 24);
                         } else {
-                            nextCtx.fillSty;e = '#888';
+                            nextCtx.fillStyle= '#888';
                             nextCtx.fillRect((c+offsetX) * 25, (r+offsetY) * 25, 24, 24);
+                            }
+      }
+    });
+  });
+}              
+
+                function collides(piece, board, dx, dy) {
+                    dx=dx || 0;
+                    dy=dy || 0;
+                    return piece.shape.some(function(row,r) {
+                        return.row.some(function(cell,c) {
+                            if (!cell) return false;
+                            var nx = piece.x + c + dx;
+                            var ny = piece.y + r + dy;
+                            return nx < 0 || nx >= COLS || ny >= ROWS || (ny >= 0 && board[ny][nx]);
                         });
                     });
                 }
+                       
                 function lockPiece() {
                     current.shape.forEach(function(row, r) {
                         row.forEach(function(cell, c) {
@@ -116,7 +132,6 @@ function randomPiece () {
                                 var ny = current.y + r;
                                 var nx = current.x + c;
                                 if (ny >= 0) board [ny][nx] = current.img;
-
                             }
                         });
                     });
@@ -133,17 +148,17 @@ function randomPiece () {
                 function clearLines() {
                     var cleared = 0;
                     for (var r = ROWS - 1; r >= 0; r --) {
-                        if (board[r].every(function(c) { return c !== 0; })) {
-                            board.splice (r, 1);
-                            board.unshift(Array(COLS).fill(0));
-                            cleared++;
-                            r++;
+                       if (board[r].every(function(c) { return c !== 0; })) {
+                         board.splice(r, 1);
+                         board.unshift(Array(COLS).fill(0));
+                         cleared++;
+                          r++;
                         }
                     }
 
                     if (cleared > 0) {
                         var points = [0,100, 300, 500, 800];
-                        score += (points[cleared]  800) * level={;
+                        score += (points[cleared] || 800) * level;
                             lines += cleared;
                             level = Math.floor(lines /10) + 1;
                             dropInterval = Math.max(80,400 - (level -1) * 40);
@@ -155,21 +170,23 @@ function randomPiece () {
                 function rotate(piece) {
                     var rows = piece.shape.length;
                     var cols =piece.shape[0].length;
-                    var rotated = Array.from({ length: cols } . function (_, i) {
-                        return piece.shape[rows -1 -j][i];
+                    var rotated = Array.from({ length: cols }, function(_, i) {
+                        return Array.from({ length: rows }, function(_, j) {
+                          return piece.shape[rows - 1 - j][i];
+                    
                     });
-                };
+                });
                 return rotated;
             }
 
             function gameLoop(time) {
-                if ( !gameRunning paused) return;
+                 if (!gameRunning || paused) return;
                 var delta = time - lastTime;
                 lastTime = time;
                 dropCounter += delta;
 
                 if (dropCounter>= dropInterval) {
-                    if (!collides(current, board, onabort, 1)) {
+                    if (!collides(current, board , 0, 1)){
                         current.y++;
                     } else {
                         lockPiece();
@@ -179,7 +196,7 @@ function randomPiece () {
 
                 drawBoard();
                 drawPiece(ctx, current);
-                animId = requestAnimationFrame(gameLopp);
+                animId = requestAnimationFrame(gameLoop);
     
             }
 
@@ -208,8 +225,8 @@ function randomPiece () {
             }
 
             function endGame() {
-                gameRunninf = false;
-                document.getElementById('final-score').textContent = 'score: ' + score;
+                gameRunning= false;
+                document.getElementById('final-score').textContent = 'score:' + score;
                 document.getElementById('game-over').classList.add('show');
                 document.getElementById('bg-music').pause();
             }
@@ -219,15 +236,13 @@ function randomPiece () {
             }
 
             document.addEventListener('keydown', function(e) {
-                if (!gameRunning paused) return;
+                 if (!gameRunning || paused) return;
                 if (e.key === 'ArrowLeft') {
                     if (!collides(current, board, -1, 0)) current.x--;
                 }
                 if (e.key === 'ArrowRight') {
-                    if (!collides(current, board, 1, 0)) current.xx--;
-                }
-                if (e.key === 'ArrowRight') {
-                    if (!collides(current, board, 1, 0)) current.x++;
+                      if (!collides(current, board, 1, 0)) current.x++;
+                
                 }
                 if (e.key === 'ArrowDown') {
                     if (!collides(current, board, 0,1)) current.y++;
@@ -243,8 +258,9 @@ function randomPiece () {
                 if (e.key ==='') {
                     while (!collides(current, board, 0, 1)) current.y++;
                     lockPiece();
-                    dropCounter0;
+                    dropCounter = 0;
                 }
+
                 drawBoard();
                 drawPiece(ctx, current);
             });
