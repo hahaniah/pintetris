@@ -4,6 +4,7 @@
             <meta charset ="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
             <title>pintetris</title>
+            <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&display=swap" rel="stylesheet" />
             <style>
                 * {margin: 0; padding: 0; box-sizing: border-box;}
 
@@ -13,7 +14,7 @@
                     align-items: center;
                     justify-content: center;
                     height: 100vh;
-                    font-family: monospace;
+                     font-family: 'Fredoka', sans-serif;
                     color: #fff;
                 }
                 .game-wrap {
@@ -34,6 +35,7 @@
                     min-width: 120px;
                 }
                 .sidebar h1 {
+                    font-family: 'Fredoka', sans-serif;
                     font-size: 1.4rem;
                     letter-spacing: 0.1rem;
                     color: #9b5de5;
@@ -47,18 +49,19 @@
                     margin-bottom: 0.3rem;
                 }
                 .score-val {
+                    font-family: 'Fredoka', sans-serif;
                     font-size: 1.6rem;
                     color: #9b5de5;
                 }
                 #next-canvas {
-                    border: 1px solid #333;
+                    border: 4px solid #8ecef4;
                 }
                 .btn {
                     background: #9b5de5;
                     color: #fff;
                     border: none;
                     padding: 0.6rem 1rem;
-                    font-family: monospace;
+                     font-family: 'Fredoka', sans-serif;
                     font-size: 0.85rem;
                     cursor: pointer;
                     border-radius: 4px;
@@ -116,7 +119,7 @@
                 .float {
                     animation: bob 4s ease-in-out infinite;
                 }
-                .block-lilac.float { animation-duration: 5s; }
+                .block-lilac.float { animation-duration: 9s; }
                 .block-pink.float { animation-duration: 3.5s;}
 
                 @keyframes bob {
@@ -126,7 +129,7 @@
             </style>
         </head>
         <body>
-        <img class="char-img" src="char.png" alt="character" />
+        
         <img class="deco block-blue float" src="blue.png" alt="" />
         <img class="deco block-lilac float" src="lilac.png" alt=""/>
         <img class="deco block-pink float" src="pink.png" alt=""/>
