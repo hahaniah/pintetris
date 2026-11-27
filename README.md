@@ -1,3 +1,4 @@
+<img width="936" height="404" alt="d2" src="https://github.com/user-attachments/assets/f4b3a801-7316-433d-8068-d7fd027d83f2" />
 
 Pintetris
 
