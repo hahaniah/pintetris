@@ -13,7 +13,7 @@ const PIECES = [
   { shape: [[0,1,0],[1,1,1]], img: 'block-11.png'},
   { shape: [[1,0],[1,0],[1,1]], img: 'block-88.png'},
   { shape: [[0,1],[0,1],[1,1]], img:'block-101.png'},
-  { shape: [[0,1,1],[1,1,0]], img: 'block-ss.png'}.
+  { shape: [[0,1,1],[1,1,0]], img: 'block-ss.png'},
   { shape: [[1,1,0],[0,1,1]], img: 'block-zz.png'},
   { shape: [[1,0],[1,1],[0,1]], img: 'block-t.png'},
   { shape: [[1,1,1],[1,0,0]], img: 'block-99.png'},
@@ -56,9 +56,9 @@ function randomPiece () {
     function drawBlock(context, x, y, imgSrc) {
         var img = blockImages [imgSrc];
         if (img && img.complete && img.naturalWidth > 0) {
-            context.drawImage (img, x * BLOCK, y, BLOCK,BLOCK -1, BLOCK -1);
+            context.drawImage(img, x * BLOCK, y * BLOCK, BLOCK - 1, BLOCK - 1);
         } else {
-            context.fillSTyle = '888';
+            context.fillSTyle = '#888';
             context.fillRect(x * BLOCK, y * BLOCK, BLOCK -1, BLOCK -1);
         }    }
         function drawBoard() {
@@ -86,7 +86,7 @@ function randomPiece () {
             piece.shape.forEach(function(row,r) {
                 row.forEach(function(cell,c) {
                     if (cell) {
-                        drawBlock (context, piece.x + c + offsetX, piece.y + r + offsetY. piece.img);
+                        drawBlock (context, piece.x + c + offsetX, piece.y + r + offsetY,piece.img);
                         }
                 });
             });
@@ -102,7 +102,7 @@ function randomPiece () {
                     if (cell) {
                         var img = blockImages[next.img];
                         if (img && img.complete && img.naturalWidth >0) {
-                            nextCtx.drawiMage(img, (c+offsetX) * 25, (r+offsetY) * 25, 24, 24);
+                            nextCtx.drawImage(img,(c+offsetX) * 25, (r+offsetY) * 25, 24, 24);
                         } else {
                             nextCtx.fillStyle= '#888';
                             nextCtx.fillRect((c+offsetX) * 25, (r+offsetY) * 25, 24, 24);
@@ -116,7 +116,7 @@ function randomPiece () {
                     dx=dx || 0;
                     dy=dy || 0;
                     return piece.shape.some(function(row,r) {
-                        return.row.some(function(cell,c) {
+                        return row.some(function(cell,c) {
                             if (!cell) return false;
                             var nx = piece.x + c + dx;
                             var ny = piece.y + r + dy;
@@ -221,7 +221,7 @@ function randomPiece () {
                 paused = false;
                 lastTime = performance.now();
                 if (animId) cancelAnimationFrame(animId);
-                animId = requesrAnimationFrame(gameLoop);
+                animId = requestAnimationFrame(gameLoop);
             }
 
             function endGame() {
@@ -255,7 +255,7 @@ function randomPiece () {
                     current.shape = rotated;
                     if (collides(current, board, 0 , 0)) current.shape = old;
                 }
-                if (e.key ==='') {
+                if (e.key === ' ') {
                     while (!collides(current, board, 0, 1)) current.y++;
                     lockPiece();
                     dropCounter = 0;
@@ -266,7 +266,7 @@ function randomPiece () {
             });
 
             document.getElementById('start-btn').addEventListener('click', startGame);
-            document.getElementById('pause-btn').addEventListener('click', function() [
+            document.getElementById('pause-btn').addEventListener('click', function() {
                 if (!gameRunning) return;
                 paused = !paused;
                 this.textContent = paused ? 'resume' : 'pause';
@@ -274,5 +274,5 @@ function randomPiece () {
                     lastTime = performance.now();
                     animId = requestAnimationFrame(gameLoop);
                 }
-            ]);
+            });
         
